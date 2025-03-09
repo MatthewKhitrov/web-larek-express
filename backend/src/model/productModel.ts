@@ -9,6 +9,7 @@ interface IProduct {
     category: string;
     description: string;
     price: number;
+    _id: mongoose.Types.ObjectId;
 }
 
 const productSchema = new mongoose.Schema<IProduct>({
@@ -40,6 +41,7 @@ const productSchema = new mongoose.Schema<IProduct>({
   price: {
     type: Number,
     required: [true, 'Поле "price" должно быть заполнено'],
+    default: 0,
   },
 });
 

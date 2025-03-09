@@ -1,5 +1,5 @@
-import { celebrate, Joi, Segments } from 'celebrate';
-import Product from '../model/productModel';
+import { celebrate, Joi, Segments } from "celebrate";
+import Product from "../model/productModel";
 
 export const ValidateProduct = celebrate({
   [Segments.BODY]: Joi.object().keys({
@@ -18,25 +18,11 @@ export const ValidateProduct = celebrate({
 
 export const ValidateOrder = celebrate({
   body: Joi.object().keys({
-    items: Joi.array()
-      .items(
-        Joi.string().custom(async (value, helpers) => {
-          const product = await Product.findById(value);
-          if (!product) {
-            return helpers.message({ message: `Товар с _id ${value} не найден` });
-          }
-          if (product.price === null) {
-            return helpers.message({ message: `Товар с _id ${value} не продается` });
-          }
-          return value;
-        }),
-      )
-      .min(1)
-      .required(),
+    items: Joi.array().items(Joi.string()).min(1).required(),
 
     total: Joi.number().required(),
 
-    payment: Joi.string().valid('card', 'online').required(),
+    payment: Joi.string().valid("card", "online").required(),
 
     email: Joi.string().email().required(),
 
@@ -45,4 +31,3 @@ export const ValidateOrder = celebrate({
     address: Joi.string().required(),
   }),
 });
-
